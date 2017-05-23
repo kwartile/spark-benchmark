@@ -50,7 +50,7 @@ Supported Platform
 The pom file currently include support for Spark 1.6 on CDH 5.8.  But this can be easily modified to run on Spark 2.x and other version of Cloudera, HortonWorks, and Apache distribution.
 
 #### Build & Run
-You use standard maven command to build.  You use the following command to run the job:
+Use standard maven command ```mvn package``` to build and following the command to run the job:
 ```
 spark-submit  --class com.kwartile.benchmark.spark.RDDAggregate --master yarn --executor-memory <mem> --executor-cores <num> --num-executors <num>  --conf spark.yarn.executor.memoryOverhead=<mem_in_mb> perf-benchmark-1.0-SNAPSHOT-jar-with-dependencies.jar --input-path <hdfs location>
 ```
