@@ -1,13 +1,14 @@
 ## Spark Benchmark
 
 #### Overview
-Spark Benchmark suite helps you evaluate your cluster Spark cluster configuration.  You can also use this benchmark to compare the speed, throughput, and resource usage of Spark jobs with other big data frameworks such as Impala and Hive. It contains a set of Spark RDD based jobs that performs map, reduceByKey, and join operations.
+Spark Benchmark suite helps you evaluate Spark cluster configuration.  This benchmark can also be used to compare the speed, throughput, and resource usage of Spark jobs with other big data frameworks such as Impala and Hive. It contains a set of Spark RDD based operations that performs map, filter, reduceByKey, and join operations.
 
 #### Data
 The benchmark uses the dataset used for Impala performance measurement (http://docs.aws.amazon.com/emr/latest/DeveloperGuide/query-impala-generate-data.html).  The dataset consists of three different files:
-Books
-Customers
-Transactions
+* Books
+* Customers
+* Transactions
+
 ```
 > head books
 0|5-54687-602-6|FOREIGN-LANGUAGE-STUDY|1989-09-29|Saraiva|83.99
@@ -53,3 +54,53 @@ You use standard maven command to build.  You use the following command to run t
 ```
 spark-submit  --class com.kwartile.benchmark.spark.RDDAggregate --master yarn --executor-memory <mem> --executor-cores <num> --num-executors <num>  --conf spark.yarn.executor.memoryOverhead=<mem_in_mb> perf-benchmark-1.0-SNAPSHOT-jar-with-dependencies.jar --input-path <hdfs location>
 ```
+#### Hive and Impala Query
+You can use the following equivalent Hive/Impala query to compare the performance.
+
+```
+# Scan Query
+SELECT COUNT(*)
+FROM customers256gb
+WHERE name = 'Harrison SMITH';
+```
+
+```
+# Aggregation
+SELECT category, count(*) cnt
+FROM books256gb
+GROUP BY category
+ORDER BY cnt DESC LIMIT 10;
+```
+
+```
+# Two Way Join
+SELECT tmp.book_category, ROUND(tmp.revenue, 2) AS revenue
+FROM (
+SELECT books256gb.category AS book_category, SUM(books256gb.price * transactions256gb.quantity) AS revenue
+FROM books256gb JOIN transactions256gb ON (
+transactions256gb.book_id = books256gb.id
+AND YEAR(transactions256gb.transaction_date) BETWEEN 2008 AND 2010
+)
+GROUP BY books256gb.category
+) tmp
+ORDER BY revenue DESC LIMIT 10;
+```
+
+```
+# Three Way Join
+SELECT tmp.book_category, ROUND(tmp.revenue, 2) AS revenue
+FROM (
+  SELECT books256gb.category AS book_category, SUM(books256gb.price * transactions256gb.quantity) AS revenue
+  FROM books256gb
+  JOIN transactions256gb ON (
+    transactions256gb.book_id = books256gb.id
+  )
+  JOIN customers256gb ON (
+    transactions256gb.customer_id = customers256gb.id
+    AND customers256gb.state IN ('WA', 'CA', 'NY')
+  )
+  GROUP BY books256gb.category
+) tmp
+ORDER BY revenue DESC LIMIT 10;
+```
+
