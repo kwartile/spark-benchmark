@@ -61,7 +61,7 @@ You can use the following equivalent Hive/Impala query to compare the performanc
 # Scan Query
 SELECT COUNT(*)
 FROM customers256gb
-WHERE name = 'Harrison SMITH';
+WHERE name = 'Scarlett STEVENS';
 ```
 
 ```
