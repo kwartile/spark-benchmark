@@ -29,7 +29,7 @@ import java.util.Calendar
 
 /**
   * Reads the books and transactions files as defined (http://docs.aws.amazon.com/emr/latest/DeveloperGuide/impala-optimization.html)
-  * filters transactions by year, join transactions and books on book category, counts the total amount by category, and
+  * filters transactions by year, join transactions and books on book id, sums the total amount by category, and
   * sorts the results on the total amount.
   */
 
@@ -40,9 +40,6 @@ object RDDTwoWayJoin {
   def main(args: Array[String]) {
     val parser = parseArguments(args)
 
-    /**
-      *
-      */
     parser.parse(args, InputParams()).map({ params =>
       val sparkConf = new SparkConf().setAppName("Spark-TwoWayJoin-Performance-Benchmark")
       val sc = new SparkContext(sparkConf)

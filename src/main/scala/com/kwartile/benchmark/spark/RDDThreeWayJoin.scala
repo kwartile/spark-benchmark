@@ -118,7 +118,7 @@ object RDDThreeWayJoin {
         (bookId, qty)
       })
 
-    val topGrossingBookCategoryByRegion = books.map(x => {
+    val topGrossingBookCategoryByState = books.map(x => {
       val bookId = x._1
       val category = x._3
       val price = x._6
@@ -135,7 +135,7 @@ object RDDThreeWayJoin {
       .reduceByKey((a, b) => a + b).takeOrdered(10)(Ordering[Double].reverse.on[(String, Double)](_._2))
 
     println("Running 2-way join...")
-    topGrossingBookCategoryByRegion.foreach(println)
+    topGrossingBookCategoryByState.foreach(println)
     println("Top 10 grossing categories and in the states WA, CA, and NY")
   }
 
