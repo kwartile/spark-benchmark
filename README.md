@@ -50,10 +50,15 @@ RDDThreeWayJoin: This operation is similar to the above except we perform additi
 #### Supported Platform
 The pom file currently includes support for Spark 1.6 on CDH 5.8.  But this can be easily modified to run on Spark 2.x and other version of Cloudera, HortonWorks, and Apache distribution.
 
-#### Build & Run
-Use the standard maven command ```mvn package``` to build and following the command to run the job:
+#### Build
+Use the standard maven command ```mvn package``` to build.
+
+#### Run
+* Generate Data: Download the DBGen utlity from http://docs.aws.amazon.com/emr/latest/DeveloperGuide/query-impala-generate-data.html.  Follow the instructions to generate data. 
+* Copy generated data on HDFS.
+* Run the following command to run the benchmark. You may need to adjust the memory parameters to tune the job.
 ```
-spark-submit  --class com.kwartile.benchmark.spark.RDDAggregate --master yarn --executor-memory <mem> --executor-cores <num> --num-executors <num>  --conf spark.yarn.executor.memoryOverhead=<mem_in_mb> perf-benchmark-1.0-SNAPSHOT-jar-with-dependencies.jar --input-path <hdfs location>
+spark-submit  --class com.kwartile.benchmark.spark.<RDDScan | RDDAggregate | RDDTwoWayJoin | RDDTHreeWayJoin> --master yarn --executor-memory <mem> --executor-cores <num> --num-executors <num>  --conf spark.yarn.executor.memoryOverhead=<mem_in_mb> perf-benchmark-1.0-SNAPSHOT-jar-with-dependencies.jar --input-path <hdfs location>
 ```
 #### Hive and Impala Query
 You can use the following equivalent Hive/Impala query to compare the performance.
