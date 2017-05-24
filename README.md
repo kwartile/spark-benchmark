@@ -46,8 +46,9 @@ RDDScan: RDDScan reads the customer file and performs a filter operation.  It is
 RDDAggregate: RDDAgregate operation scans the books file and perform reduceByKey to aggregate count of books by category.  It then sorts the results based on the book count.
 RDDTwoWayJoin: This operation performs a join between books and transactions between 2008 and 2010, aggregates the results on book category, and returns sorted results based on the total transaction amount.
 RDDThreeWayJoin: This operation is similar to the above except we perform addition join with the customer table and filter the results on three states
-Supported Platform
-The pom file currently include support for Spark 1.6 on CDH 5.8.  But this can be easily modified to run on Spark 2.x and other version of Cloudera, HortonWorks, and Apache distribution.
+
+#### Supported Platform
+The pom file currently includes support for Spark 1.6 on CDH 5.8.  But this can be easily modified to run on Spark 2.x and other version of Cloudera, HortonWorks, and Apache distribution.
 
 #### Build & Run
 Use the standard maven command ```mvn package``` to build and following the command to run the job:
