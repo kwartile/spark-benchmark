@@ -55,7 +55,7 @@ Use the standard maven command ```mvn package``` to build.
 
 #### Run
 * Generate Data: Download the DBGen utlity from http://docs.aws.amazon.com/emr/latest/DeveloperGuide/query-impala-generate-data.html.  Follow the instructions to generate data. 
-* Copy generated data on HDFS.
+* Copy generated data to HDFS.
 * Run the following command to run the benchmark. You may need to adjust the memory parameters to tune the job.
 ```
 spark-submit  --class com.kwartile.benchmark.spark.<RDDScan | RDDAggregate | RDDTwoWayJoin | RDDTHreeWayJoin> --master yarn --executor-memory <mem> --executor-cores <num> --num-executors <num>  --conf spark.yarn.executor.memoryOverhead=<mem_in_mb> perf-benchmark-1.0-SNAPSHOT-jar-with-dependencies.jar --input-path <hdfs location>
@@ -109,4 +109,5 @@ FROM (
 ) tmp
 ORDER BY revenue DESC LIMIT 10;
 ```
-
+### Questions & Feedback
+Please contact us as labs@kwartile.com for any question or enhancement request.
