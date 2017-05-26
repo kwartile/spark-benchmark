@@ -134,7 +134,7 @@ object RDDThreeWayJoin {
       })
       .reduceByKey((a, b) => a + b).takeOrdered(10)(Ordering[Double].reverse.on[(String, Double)](_._2))
 
-    println("Running 2-way join...")
+    println("Running 3-way join...")
     topGrossingBookCategoryByState.foreach(println)
     println("Top 10 grossing categories and in the states WA, CA, and NY")
   }
